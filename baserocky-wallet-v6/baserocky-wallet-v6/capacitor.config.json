@@ -1,0 +1,27 @@
+{
+  "appId": "com.baserocky.wallet",
+  "appName": "BaseRocky Wallet",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": true,
+      "backgroundColor": "#0052FF",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false,
+      "splashFullScreen": true,
+      "splashImmersive": true
+    },
+    "StatusBar": {
+      "style": "LIGHT",
+      "backgroundColor": "#0052FF"
+    }
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0052FF"
+  }
+}

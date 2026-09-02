@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0052FF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
+<title>BaseRocky Wallet</title>
+<style id="br-splash-critical">
+.br-splash{
+  position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;margin:0;
+  background:linear-gradient(180deg,#2B6BFF 0%,#0052FF 50%,#0046E0 100%);
+}
+.br-splash.is-hide{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s}
+.br-splash-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px;max-width:90vw}
+.br-splash-logo-wrap{
+  width:88px;height:88px;border-radius:20px;overflow:hidden;
+  background:#0B0E11;
+  box-shadow:0 8px 28px rgba(0,20,100,.35),0 0 0 2px rgba(255,255,255,.5);
+  display:flex;align-items:center;justify-content:center;margin-bottom:22px;
+  flex-shrink:0;
+}
+.br-splash-logo{
+  width:88px;height:88px;object-fit:cover;border-radius:20px;display:block;
+  max-width:88px;max-height:88px;
+}
+.br-splash-title{margin:0;font-size:1.4rem;font-weight:700;color:#fff;font-family:Inter,system-ui,sans-serif;letter-spacing:-.02em}
+.br-splash-tag{margin:8px 0 0;font-size:.95rem;font-weight:500;color:rgba(255,255,255,.88);font-family:Inter,system-ui,sans-serif}
+.br-presale-card{transition:transform .18s ease,box-shadow .18s ease;position:relative;overflow:hidden}.br-presale-card:active{transform:scale(.985)}
+.br-presale-card:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 92% 12%,rgba(0,212,170,.18),transparent 38%);pointer-events:none}.br-presale-top{display:flex;justify-content:space-between;align-items:center;gap:12px;position:relative;z-index:1}.br-presale-left{min-width:0}.br-presale-name{font-weight:850;font-size:1rem;letter-spacing:-.02em}.br-presale-meta{font-size:.78rem;opacity:.72;margin-top:5px}.br-live-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;font-size:.68rem;font-weight:900;letter-spacing:.06em;white-space:nowrap}.br-live-badge.live{background:rgba(0,212,170,.14);color:#55f0d0;border:1px solid rgba(0,212,170,.28);box-shadow:0 0 0 1px rgba(0,212,170,.05),0 0 18px rgba(0,212,170,.12)}.br-live-badge.soon{background:rgba(255,193,7,.12);color:#ffd76a;border:1px solid rgba(255,193,7,.24)}.br-live-badge.off{background:rgba(255,255,255,.06);color:#9aa5b1;border:1px solid rgba(255,255,255,.08)}.br-presale-cta{font-weight:900;color:#00d4aa;white-space:nowrap}.br-presale-sold{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:.7rem;color:rgba(255,255,255,.62);position:relative;z-index:1}.br-presale-progress{margin-top:6px;height:7px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;position:relative;z-index:1}.br-presale-progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#00bfa5,#00e5be);border-radius:99px;box-shadow:0 0 14px rgba(0,212,170,.35);transition:width .35s ease}.br-presale-sheet{padding-bottom:22px}.br-modal-live{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:.72rem;color:var(--muted)}.br-presale-price{padding:14px;border:1px solid rgba(0,212,170,.18);border-radius:16px;background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(16,28,43,.5));margin:10px 0}.br-price-main{font-size:1.65rem;font-weight:900;letter-spacing:-.03em}.br-price-main span{font-size:.9rem;font-weight:700;opacity:.7}.br-bonus{display:inline-block;margin-top:7px;font-size:.72rem;font-weight:800;color:#7df2c8;background:rgba(0,212,170,.1);padding:5px 8px;border-radius:999px}.br-presale-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.br-presale-stats>div{padding:10px 12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}.br-presale-stats small{display:block;color:var(--muted);font-size:.68rem;margin-bottom:3px}.br-presale-stats b{font-size:.78rem}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=1787057500">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js" defer></script>
+<script src="js/config.js?v=1787056500" defer></script>
+<script src="js/i18n.js?v=1787056500" defer></script>
+<script src="js/secure.js?v=1787056500" defer></script>
+<script src="js/ui.js?v=1787056500" defer></script>
+<script src="js/network.js?v=1787056500" defer></script>
+<script src="js/native-bridge.js?v=1787056500" defer></script>
+<script src="js/core.js?v=1787069999" defer></script>
+<script src="js/web3.js?v=1787056500" defer></script>
+<script src="js/discover.js?v=1787056500" defer></script>
+<style id="br-presale-live-v3">
+/* Presale Live Motion V3 — animated LIVE state + progress activity */
+@keyframes brPresaleLivePulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.18),0 0 12px rgba(0,212,170,.10);transform:translateZ(0)}50%{box-shadow:0 0 0 5px rgba(0,212,170,0),0 0 24px rgba(0,212,170,.24);transform:translateZ(0)}}
+@keyframes brPresaleDotPulse{0%,100%{opacity:.55;transform:scale(.82)}50%{opacity:1;transform:scale(1.18)}}
+@keyframes brPresaleShimmer{0%{transform:translateX(-140%)}100%{transform:translateX(420%)}}
+@keyframes brPresaleGlow{0%,100%{filter:brightness(1);box-shadow:0 0 10px rgba(0,212,170,.22)}50%{filter:brightness(1.22);box-shadow:0 0 24px rgba(0,212,170,.42)}}
+.br-live-badge.live{position:relative;overflow:hidden;animation:brPresaleLivePulse 2.1s ease-in-out infinite}
+.br-live-badge.live:before{content:'';width:6px;height:6px;border-radius:50%;background:#55f0d0;box-shadow:0 0 8px rgba(85,240,208,.9);animation:brPresaleDotPulse 1.25s ease-in-out infinite;flex:none}
+.br-live-badge.live{font-variant-numeric:tabular-nums}
+.br-live-badge.live:after{content:'';position:absolute;top:-30%;bottom:-30%;left:0;width:32%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:translateX(-140%);animation:brPresaleShimmer 2.8s linear infinite;pointer-events:none}
+.br-presale-card.live{position:relative;overflow:hidden;border-color:rgba(0,212,170,.42)!important;box-shadow:0 12px 38px rgba(0,212,170,.12),inset 0 0 30px rgba(0,212,170,.025);animation:brPresaleCardGlow 3s ease-in-out infinite}
+@keyframes brPresaleCardGlow{0%,100%{box-shadow:0 12px 38px rgba(0,212,170,.10),inset 0 0 30px rgba(0,212,170,.02)}50%{box-shadow:0 14px 48px rgba(0,212,170,.20),inset 0 0 42px rgba(0,212,170,.05)}}
+.br-presale-progress,.br-pc-progress{position:relative;overflow:hidden}
+.br-presale-progress:after,.br-pc-progress:after{content:'';position:absolute;top:0;bottom:0;left:0;width:28%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-150%);animation:brPresaleShimmer 2.6s linear infinite;pointer-events:none}
+.br-presale-progress i,.br-pc-progress>i{position:relative;overflow:hidden;animation:brPresaleGlow 2.4s ease-in-out infinite}
+.br-presale-progress i:after,.br-pc-progress>i:after{content:'';position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:translateX(-160%);animation:brPresaleShimmer 2s linear infinite;pointer-events:none}
+.br-pc-card.live{position:relative;overflow:hidden;animation:brPresaleCardGlow 3s ease-in-out infinite}
+.br-pc-card.live .br-pc-progress>i{animation:brPresaleGlow 2.4s ease-in-out infinite}
+.br-pc-card.live .br-pc-foot b,.br-pc-card.live .br-pc-cta{animation:brPresaleTextPulse 1.8s ease-in-out infinite}
+@keyframes brPresaleTextPulse{0%,100%{opacity:.82}50%{opacity:1;text-shadow:0 0 12px rgba(0,212,170,.45)}}
+.br-pc-banner .br-live-badge.live{animation-duration:2s}
+@media(prefers-reduced-motion:reduce){.br-live-badge.live,.br-presale-card.live,.br-pc-card.live,.br-presale-progress i,.br-pc-progress>i,.br-presale-progress:after,.br-pc-progress:after,.br-presale-progress i:after,.br-pc-progress>i:after{animation:none!important}}
+</style>
+</head>
+<body>
+<!-- Splash screen (Bitget-style launch) -->
+<div id="brSplash" class="br-splash" aria-hidden="false">
+  <div class="br-splash-inner">
+    <div class="br-splash-logo-wrap">
+      <img class="br-splash-logo" src="icon-192.png" alt="" width="88" height="88" decoding="async">
+    </div>
+    <h1 class="br-splash-title">BaseRocky Wallet</h1>
+    <p class="br-splash-tag">Crypto for Base</p>
+  </div>
+</div>
+<div class="app" id="app">
+  <div class="net-status" id="netStatus"></div>
+
+  
+  
+  <div class="screen no-nav active" id="screen-onboard">
+    <div class="ob-welcome">
+      <div class="ob-bg"></div>
+      <div class="ob-dog-stage" aria-hidden="true">
+        <div class="ob-dog-runner">
+          <svg class="ob-dog-svg" viewBox="0 0 120 80" width="140" height="90">
+            <!-- simple running dog -->
+            <g class="dog-body">
+              <ellipse cx="58" cy="42" rx="28" ry="16" fill="#5eead4"/>
+              <circle cx="88" cy="34" r="14" fill="#2dd4bf"/>
+              <circle cx="93" cy="31" r="2.2" fill="#0f172a"/>
+              <ellipse cx="98" cy="36" rx="5" ry="3" fill="#99f6e4"/>
+              <path d="M78 24 C72 12, 60 14, 62 26" fill="#2dd4bf"/>
+              <g class="leg leg-f1"><path d="M70 52 L66 72" stroke="#14b8a6" stroke-width="5" stroke-linecap="round"/></g>
+              <g class="leg leg-f2"><path d="M80 52 L84 72" stroke="#0d9488" stroke-width="5" stroke-linecap="round"/></g>
+              <g class="leg leg-b1"><path d="M44 52 L40 72" stroke="#14b8a6" stroke-width="5" stroke-linecap="round"/></g>
+              <g class="leg leg-b2"><path d="M36 50 L42 70" stroke="#0d9488" stroke-width="5" stroke-linecap="round"/></g>
+              <path d="M30 40 Q22 36 28 28" fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="ob-ground"></div>
+      </div>
+      <div class="ob-gradient"></div>
+      <div class="ob-content">
+        <div class="ob-slides" id="obSlides">
+          <div class="ob-slide active"><span class="ob-accent">Trade</span> popular<br>tokens seamlessly</div>
+          <div class="ob-slide"><span class="ob-accent">Swap</span> across<br>chains instantly</div>
+          <div class="ob-slide"><span class="ob-accent">Secure</span> non-custodial<br>keys on device</div>
+        </div>
+        <div class="ob-dots" id="obDots">
+          <span class="on"></span><span></span><span></span>
+        </div>
+        <div class="ob-actions">
+          <button type="button" class="ob-btn ob-btn-primary" id="btnCreateWallet">Create wallet</button>
+          <button type="button" class="ob-btn ob-btn-secondary" id="btnHasWallet">I already have a wallet</button>
+        </div>
+        <p class="ob-legal">By continuing, you agree to use BaseRocky Wallet non-custodially. Keys stay only on your device.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create wallet sheet -->
+  <div class="ob-sheet-bg" id="createSheetBg">
+    <div class="ob-sheet" onclick="event.stopPropagation()">
+      <div class="ob-sheet-handle"></div>
+      <div class="ob-sheet-icon create">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+          <path d="M20 12V8H6a2 2 0 010-4h12v4" stroke="#5eead4" stroke-width="1.6"/>
+          <path d="M4 6v12a2 2 0 002 2h14v-4" stroke="#5eead4" stroke-width="1.6"/>
+          <path d="M18 12a2 2 0 100 4h4v-4h-4z" stroke="#5eead4" stroke-width="1.6"/>
+          <circle cx="19" cy="7" r="3" fill="#a3e635"/>
+        </svg>
+      </div>
+      <h2 class="ob-sheet-title">Create wallet</h2>
+      <button type="button" class="ob-option" id="btnCreateGoogle">
+        <span class="ob-opt-ico google">G</span>
+        <span class="ob-opt-label">Create with Google</span>
+        <span class="ob-opt-chevron">›</span>
+      </button>
+      <button type="button" class="ob-option" id="btnCreateEmail">
+        <span class="ob-opt-ico email">✉</span>
+        <span class="ob-opt-label">Create with email</span>
+        <span class="ob-opt-chevron">›</span>
+      </button>
+      <div class="ob-divider"><span>Or</span></div>
+      <button type="button" class="ob-btn ob-btn-dark" id="btnCreateSeed">Create seed phrase wallet</button>
+    </div>
+  </div>
+
+  <!-- Import wallet sheet -->
+  <div class="ob-sheet-bg" id="importSheetBg">
+    <div class="ob-sheet" onclick="event.stopPropagation()">
+      <div class="ob-sheet-handle"></div>
+      <div class="ob-sheet-icon import">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.6">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>
+        </svg>
+      </div>
+      <h2 class="ob-sheet-title">I already have a wallet</h2>
+      <button type="button" class="ob-option" id="btnImportGoogle">
+        <span class="ob-opt-ico google">G</span>
+        <span class="ob-opt-label">Masuk dengan Google</span>
+        <span class="ob-opt-chevron">›</span>
+      </button>
+      <button type="button" class="ob-option" id="btnImportEmail">
+        <span class="ob-opt-ico email">✉</span>
+        <span class="ob-opt-label">Masuk dengan email</span>
+        <span class="ob-opt-chevron">›</span>
+      </button>
+      <div class="ob-divider"><span>Or</span></div>
+      <button type="button" class="ob-btn ob-btn-dark" id="btnImportSeed">Kunci pribadi/Seed phrase/Keyless</button>
+    </div>
+  </div>
+
+  <!-- Seed backup screen (restored) -->
+  <div class="screen no-nav" id="screen-seed">
+    <div class="panel seed-panel">
+      <h2>Backup seed phrase</h2>
+      <p class="hint">Tulis 12 kata ini secara berurutan. Jangan screenshot atau bagikan ke siapa pun.</p>
+      <div class="seed-grid" id="seedGrid"></div>
+      <div class="btn-stack" style="max-width:none;margin-top:16px">
+        <button type="button" class="btn btn-ghost" onclick="copySeed()">Salin seed phrase</button>
+        <button type="button" class="btn btn-primary" onclick="startSeedConfirm()">Saya sudah menyimpan</button>
+        <button type="button" class="btn btn-ghost" onclick="showScreen('onboard')">Kembali</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seed phrase confirmation (required by startSeedConfirm / renderConfirmStep) -->
+  <div class="screen no-nav" id="screen-confirm-seed">
+    <div class="panel seed-panel">
+      <h2>Konfirmasi seed phrase</h2>
+      <p class="hint">Pilih kata nomor <strong id="confirmWordNum">?</strong> dari seed phrase Anda.</p>
+      <div class="confirm-steps" id="confirmSteps" aria-hidden="true"></div>
+      <div class="confirm-options" id="confirmOptions"></div>
+      <div class="btn-stack" style="max-width:none;margin-top:16px">
+        <button type="button" class="btn btn-primary" id="confirmNextBtn" style="display:none" onclick="nextConfirmStep()">Lanjutkan</button>
+        <button type="button" class="btn btn-ghost" onclick="showScreen('seed')">Kembali ke seed</button>
+      </div>
+    </div>
+  </div>
+
+<div class="screen no-nav" id="screen-import">
+    <div class="imp-page">
+      <div class="imp-top">
+        <button type="button" class="imp-back" onclick="showScreen('onboard')" aria-label="Kembali">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span></span>
+      </div>
+      <h1 class="imp-title">Enter seed phrase<br>atau kunci pribadi</h1>
+      <p class="imp-sub">Enter seed phrase 12 atau 24 kata, atau kunci pribadi, untuk mengimpor dompet kamu.</p>
+      <div class="imp-field-wrap">
+        <textarea id="importPhrase" class="imp-textarea" placeholder="Saat memasukkan seed phrase, pisahkan setiap kata dengan spasi." autocomplete="off" spellcheck="false"></textarea>
+        <button type="button" class="imp-paste" onclick="pasteImportSecret()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Tempel
+        </button>
+      </div>
+      <button type="button" class="ob-btn ob-btn-primary" style="margin-top:16px" onclick="window.importSecretUnified&&window.importSecretUnified()">Lanjutkan</button>
+      <div class="ob-divider" style="margin:22px 0 14px"><span>Metode lainnya</span></div>
+      <button type="button" class="ob-option" onclick="window.openKeylessImport&&window.openKeylessImport()">
+        <span class="ob-opt-ico mpc">MPC</span>
+        <span class="ob-opt-text">
+          <span class="ob-opt-label">Dompet tanpa kunci</span>
+          <span class="ob-opt-desc">Impor melalui pencadangan cloud</span>
+        </span>
+        <span class="ob-opt-chevron">›</span>
+      </button>
+      <button type="button" class="ob-option" onclick="window.goHardwareFromImport?window.goHardwareFromImport():showScreen('hardware')">
+        <span class="ob-opt-ico hw">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1.5" fill="currentColor"/></svg>
+        </span>
+        <span class="ob-opt-text">
+          <span class="ob-opt-label">Hardware Wallet</span>
+          <span class="ob-opt-desc">Hubungkan Ledger / perangkat keras</span>
+        </span>
+        <span class="ob-opt-chevron">›</span>
+      </button>
+    </div>
+  </div>
+
+<div class="screen" id="screen-home">
+    <div class="search-top">
+      <div class="avatar" onclick="openWalletSwitcher()"><img src="icon-192.png" alt=""></div>
+      <div class="search" onclick="showScreen('dapps')">🔍 <span data-i18n="search_apps">Cari aplikasi</span></div>
+      <button class="btn btn-sm btn-ghost" onclick="openNetworkPicker()" style="padding:6px 10px" title="Jaringan">⬡</button>
+      <button class="btn btn-sm btn-ghost" onclick="refreshBalances(true)" style="padding:6px 10px">↻</button>
+    </div>
+    <div class="wal-name" onclick="openWalletSwitcher()">
+      <strong id="homeWalletName">Wallet</strong>
+      <span id="homeWalletShort">(----)</span> ▾
+    </div>
+    <div class="bg-balance">
+      <div class="amt" id="totalUsd">$0.00</div>
+      <div class="chg" id="homeChg">— <span data-i18n="change_today">Perubahan hari ini</span></div>
+    </div>
+    <div class="action-pills">
+      <button class="action-pill" onclick="showScreen('send')"><span class="dot">↑</span> <span data-i18n="send">Send</span></button>
+      <button class="action-pill" onclick="showScreen('receive')"><span class="dot">↓</span> <span data-i18n="receive">Receive</span></button>
+      <button class="action-pill" onclick="showScreen('history');loadHistory()"><span class="dot">📜</span> <span data-i18n="history">History</span></button>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" onclick="showScreen('swap')">
+        <div class="fi">⇄</div>
+        <div class="fl">Swap</div>
+        <div class="ft"><span data-i18n="swap_tokens">Tukar token</span></div>
+      </div>
+      <div class="feat-card" onclick="showScreen('dapps')">
+        <div class="fi">🌐</div>
+        <div class="fl">DApp</div>
+        <div class="ft"><span data-i18n="base_ecosystem">Ekosistem Base</span></div>
+      </div>
+      <div class="feat-card br-presale-menu-card" onclick="openPresaleCenter()">
+        <div class="fi">🚀</div>
+        <div class="fl">Presale</div>
+        <div class="ft">Presale Center</div>
+      </div>
+    </div>
+    <div id="brPresaleCard" class="br-presale-card" style="display:block;margin:12px 16px;padding:16px;border:1px solid #2a4654;border-radius:20px;background:linear-gradient(135deg,#101c2b,#0b141b);box-shadow:0 10px 30px rgba(0,0,0,.18)" onclick="openPresaleCenter()">
+      <div class="br-presale-top">
+        <div class="br-presale-left"><div class="br-presale-name">🚀 <span id="brPresaleName">BaseRocky Presale</span></div><div id="brPresaleMeta" class="br-presale-meta">Presale token tersedia</div></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:7px"><span id="brPresaleStatus" class="br-live-badge off">MEMUAT…</span><div class="br-presale-cta">Lihat ›</div></div>
+      </div>
+      <div class="br-presale-sold"><span id="brPresaleSold">Alokasi token</span><span>Progress</span></div>
+      <div class="br-presale-progress"><i id="brPresaleProgress"></i></div>
+    </div>
+    <div class="section-token">
+      <span class="left">Token <span id="tokenTotalLabel" style="color:var(--text)"></span></span>
+      <button class="filter-btn" onclick="openTokenSettings()" title="Pengaturan token">⚙</button>
+    </div>
+    <div class="home-scroll" id="homeScroll">
+      <!-- Single empty-balance tip host (stripDupTips / Solana tip rewrite target) -->
+      <div id="brEmptyTip" class="br-empty-tip" style="display:none" hidden></div>
+      <div class="token-list" id="tokenList"></div>
+      <div class="manage-btn-wrap"><button class="manage-btn" onclick="showScreen('manage');renderManageTokens()">Kelola token</button></div>
+    </div>
+  </div>
+
+<div class="screen" id="screen-send">
+    <div class="panel">
+      <button class="back-btn" onclick="showScreen('home')">← Kembali</button>
+      <h2 data-i18n="send">Send</h2>
+      <div class="field"><label>Asset</label><select id="sendToken" onchange="updateSendAvail()"></select></div>
+      <div class="field"><label>Alamat penerima</label>
+        <input id="sendTo" placeholder="0x… atau nama.eth" autocomplete="off" spellcheck="false" oninput="onSendToInput()">
+        <div class="hint flex-between" style="margin-top:6px">
+          <span id="sendEnsHint" class="ens-hint"></span>
+          <button type="button" class="btn btn-sm btn-ghost" style="padding:3px 10px;font-size:.72rem" onclick="openAddressBook(true)">📒 Address Book</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Jumlah</label>
+        <input id="sendAmt" type="text" inputmode="decimal" placeholder="0.0" oninput="estimateGas()">
+        <div class="hint flex-between">
+          <span>Tersedia: <span id="sendAvail">0</span></span>
+          <button class="btn btn-sm btn-ghost" style="padding:3px 8px;font-size:.7rem" onclick="setMaxSend()">MAX</button>
+        </div>
+      </div>
+      <div class="gas-info" id="gasInfo" style="display:none">
+        <span class="label">Estimasi gas</span>
+        <span class="val" id="gasEstimate">—</span>
+      </div>
+      <button class="btn btn-primary" style="max-width:none;margin-top:6px" onclick="sendTx()" data-i18n="filter_send">Kirim</button>
+    </div>
+  </div>
+
+  <!-- ===== Buy crypto / QRIS (Bitget-style) ===== -->
+  <div class="screen" id="screen-buy">
+    <div class="panel buy-panel">
+      <div class="buy-top">
+        <button type="button" class="buy-back" onclick="closeBuyScreen()" aria-label="Back">←</button>
+        <div class="buy-tabs">
+          <button type="button" class="buy-tab on" id="buyTabBuy" onclick="setBuyMode('buy')">Buy</button>
+          <button type="button" class="buy-tab" id="buyTabSell" onclick="setBuyMode('sell')">Sell</button>
+        </div>
+        <button type="button" class="buy-more" onclick="showToast('Riwayat on-ramp')">☰</button>
+      </div>
+
+      <div class="buy-section">
+        <div class="buy-label" id="buyPayLabel">Pay</div>
+        <div class="buy-row">
+          <button type="button" class="buy-asset" id="buyFiatBtn" onclick="toggleBuyFiat()">
+            <span class="buy-flag">🇮🇩</span> <span id="buyFiatSym">IDR</span> ▾
+          </button>
+          <div class="buy-amt" id="buyFiatAmt">0</div>
+        </div>
+      </div>
+
+      <div class="buy-section">
+        <div class="buy-label" id="buyRecvLabel">Receive</div>
+        <div class="buy-row">
+          <button type="button" class="buy-asset" id="buyCryptoBtn" onclick="toggleBuyCrypto()">
+            <span id="buyCryptoIcon">₮</span> <span id="buyCryptoSym">USDT</span> ▾
+          </button>
+          <div class="buy-est" id="buyCryptoEst">≈ 0</div>
+        </div>
+      </div>
+
+      <button type="button" class="buy-provider" id="buyProviderBtn" onclick="openBuyProviderSheet()">
+        <span class="buy-prov-ico">QR</span>
+        <div class="buy-prov-txt">
+          <div class="buy-prov-name" id="buyProvName">Pay via TransFi</div>
+          <div class="buy-prov-sub" id="buyProvSub">QRIS</div>
+        </div>
+        <span class="buy-chev">›</span>
+      </button>
+
+      <div class="buy-pad">
+        <button type="button" class="buy-key" onclick="buyKey('1')">1</button>
+        <button type="button" class="buy-key" onclick="buyKey('2')">2</button>
+        <button type="button" class="buy-key" onclick="buyKey('3')">3</button>
+        <button type="button" class="buy-key" onclick="buyKey('4')">4</button>
+        <button type="button" class="buy-key" onclick="buyKey('5')">5</button>
+        <button type="button" class="buy-key" onclick="buyKey('6')">6</button>
+        <button type="button" class="buy-key" onclick="buyKey('7')">7</button>
+        <button type="button" class="buy-key" onclick="buyKey('8')">8</button>
+        <button type="button" class="buy-key" onclick="buyKey('9')">9</button>
+        <button type="button" class="buy-key" onclick="buyKey('.')">.</button>
+        <button type="button" class="buy-key" onclick="buyKey('0')">0</button>
+        <button type="button" class="buy-key buy-del" onclick="buyKey('del')">⌫</button>
+      </div>
+
+      <button type="button" class="buy-next" id="buyNextBtn" onclick="buyNext()">Next</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-receive">
+    <div class="panel">
+      <button class="back-btn" onclick="showScreen('home')">← Kembali</button>
+      <h2 data-i18n="receive">Receive</h2>
+      <div class="receive-box">
+        <div class="qr-wrap qr-wrap-modern"><div id="qrCanvasHost" class="qr-host"></div><canvas id="qrCanvas" width="200" height="200" style="display:none"></canvas></div>
+        <div class="addr-display" id="receiveAddr">—</div>
+        <div class="btn-stack" style="max-width:280px">
+          <button class="btn btn-primary" onclick="copyAddress()">Salin Alamat</button>
+          <button class="btn btn-ghost" id="receiveExplorerBtn" onclick="openExplorer()">Lihat di Explorer</button>
+        </div>
+        <p class="hint text-center">Hanya terima aset di jaringan <strong style="color:var(--mint)">Base</strong>. Jaringan lain dapat menyebabkan kehilangan dana.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-history">
+    <div class="topbar">
+      <div class="brand"><div class="brand-logo"><img src="icon-192.png" alt=""></div> <span data-i18n="history">History</span></div>
+      <button class="btn btn-sm btn-ghost" onclick="loadHistory(true)">↻</button>
+    </div>
+    <div class="tx-list" id="txList" data-i18n-stable="1">
+      <div class="empty-state"><div class="ico">📜</div><p data-i18n="empty_tx">Belum ada transaksi</p></div>
+    </div>
+  </div>
+
+  
+  <div class="screen" id="screen-swap">
+    <div class="panel bg-swap-panel">
+      <!-- Bitget-style top bar -->
+      <div class="bg-swap-top">
+        <button type="button" class="bg-swap-avatar" onclick="showScreen('home')" aria-label="Beranda">←</button>
+        <button type="button" class="bg-swap-mode on" id="swapNetBadge" onclick="openNetworkPicker()">
+          <span id="swapModeLabel">Pasar</span>
+          <span class="bg-swap-mode-ico">↕</span>
+        </button>
+        <div class="bg-swap-top-actions">
+          <button type="button" class="bg-swap-ico-btn" onclick="openNetworkPicker()" title="Jaringan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          </button>
+          <button type="button" class="bg-swap-ico-btn" onclick="showSwapHistory()" title="Riwayat swap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- FROM card -->
+      <div class="bg-swap-card">
+        <div class="bg-swap-card-row">
+          <button type="button" class="bg-swap-token" onclick="openTokenPicker('from')">
+            <img id="swapFromIcon" src="" alt="" width="32" height="32">
+            <div class="bg-swap-token-meta">
+              <span class="bg-swap-sym" id="swapFromSym">ETH</span>
+              <span class="bg-swap-bal"><span id="swapFromBal">0.00</span></span>
+            </div>
+            <span class="bg-swap-chev">▾</span>
+          </button>
+          <button type="button" class="bg-swap-max" onclick="setMaxSwap()"><span data-i18n="max">Maks.</span></button>
+        </div>
+        <div class="bg-swap-amt-wrap">
+          <input id="swapAmtFrom" class="bg-swap-amt" type="text" inputmode="decimal" placeholder="0" autocomplete="off" oninput="calcSwapOut()">
+        </div>
+        <div class="bg-swap-usd-row">
+          <span>≈ $<span id="swapFromUsd">0.00</span></span>
+        </div>
+      </div>
+
+      <!-- Flip + rate pill -->
+      <div class="bg-swap-mid">
+        <button type="button" class="bg-swap-flip" onclick="flipSwap()" aria-label="Tukar arah">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/></svg>
+        </button>
+        <div class="bg-swap-rate-pill" id="swapRate">1 ETH ≈ — USDC</div>
+      </div>
+
+      <!-- TO card -->
+      <div class="bg-swap-card">
+        <div class="bg-swap-card-row">
+          <button type="button" class="bg-swap-token" onclick="openTokenPicker('to')">
+            <img id="swapToIcon" src="" alt="" width="32" height="32">
+            <div class="bg-swap-token-meta">
+              <span class="bg-swap-sym" id="swapToSym">USDC</span>
+              <span class="bg-swap-bal"><span data-i18n="swap_to">Terima</span> · <span id="swapToBal">0</span></span>
+            </div>
+            <span class="bg-swap-chev">▾</span>
+          </button>
+          <div class="bg-swap-out-preview">
+            <span id="swapAmtToPreview">—</span>
+          </div>
+        </div>
+        <div class="bg-swap-amt-wrap">
+          <input id="swapAmtTo" class="bg-swap-amt bg-swap-amt-out" type="text" inputmode="decimal" placeholder="0" readonly tabindex="-1">
+        </div>
+        <div class="bg-swap-usd-row">
+          <span>≈ $<span id="swapToUsd">0.00</span></span>
+          <span class="bg-swap-slip" id="swapSlippage">Slippage ~0.5%</span>
+        </div>
+      </div>
+
+      <!-- Meta compact -->
+      <div class="bg-swap-meta" id="swapMetaBox">
+        <span id="swapMetaNet">Base</span>
+        <span class="dot">·</span>
+        <span>Uniswap V3</span>
+        <span class="dot">·</span>
+        <span id="swapPoolFee">pool —</span>
+      </div>
+
+      <button type="button" class="bg-swap-cta" id="swapCtaBtn" onclick="executeSwap()">
+        <span id="swapCtaLabel"><span data-i18n="enter_amount">Masukkan jumlah</span></span>
+      </button>
+
+      <!-- Swap history -->
+      <div class="bg-swap-hist" id="swapHistoryBox">
+        <div class="bg-swap-hist-hd">
+          <span>Riwayat swap</span>
+          <button type="button" class="bg-swap-hist-clear" onclick="clearSwapHistory()">Hapus</button>
+        </div>
+        <div id="swapHistoryList" class="bg-swap-hist-list">
+          <div class="bg-swap-hist-empty">Belum ada swap</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  
+  <!-- ===== Market / Pasar (Bitget-style) ===== -->
+  <div class="screen" id="screen-market">
+    <div class="panel mkt-panel">
+      <div class="mkt-top">
+        <button type="button" class="mkt-avatar" onclick="showScreen('home')" aria-label="Beranda">
+          <span class="mkt-avatar-fb">🐸</span>
+        </button>
+        <div class="mkt-search-wrap">
+          <span class="mkt-search-ico">🔍</span>
+          <input id="mktSearch" type="search" placeholder="Cari token / pasar" autocomplete="off" oninput="filterMarketList()">
+        </div>
+        <button type="button" class="mkt-icon-btn" onclick="refreshMarket(true)" title="Refresh">↻</button>
+      </div>
+
+      <div class="mkt-ticker" id="mktTicker" aria-label="Ticker"></div>
+
+      <div class="mkt-banner" id="mktBanner">
+        <div class="mkt-banner-text">
+          <div class="mkt-banner-title">BaseRocky Market</div>
+          <div class="mkt-banner-sub">Pantau harga token Base & pasar kripto</div>
+        </div>
+        <button type="button" class="mkt-banner-x" onclick="this.parentElement.style.display='none'" aria-label="Tutup">×</button>
+      </div>
+
+      <div class="mkt-cats" id="mktCats">
+        <button type="button" class="mkt-cat on" data-cat="crypto" onclick="setMarketCat('crypto', this)">Kripto</button>
+        <button type="button" class="mkt-cat" data-cat="wallet" onclick="setMarketCat('wallet', this)">Dompet</button>
+        <button type="button" class="mkt-cat" data-cat="defi" onclick="setMarketCat('defi', this)">DeFi</button>
+        <button type="button" class="mkt-cat" data-cat="meme" onclick="setMarketCat('meme', this)">Meme</button>
+        <button type="button" class="mkt-cat" data-cat="fav" onclick="setMarketCat('fav', this)">Favorit</button>
+      </div>
+
+      <div class="mkt-section-hd">
+        <span class="mkt-section-title" id="mktSectionTitle">Pasar favorit</span>
+        <button type="button" class="mkt-section-more" onclick="refreshMarket(true)">↻</button>
+      </div>
+
+      <div class="mkt-list" id="mktList">
+        <div class="mkt-empty">Memuat pasar…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Market detail (chart + trade) ===== -->
+  <div class="screen" id="screen-market-detail">
+    <div class="panel md-panel">
+      <div class="md-top">
+        <button type="button" class="md-back" onclick="showScreen('market')" aria-label="Kembali">←</button>
+        <div class="md-title-wrap">
+          <img id="mdIcon" class="md-icon" src="" alt="">
+          <div>
+            <div class="md-sym-row">
+              <span id="mdSymbol">BTC</span>
+              <span class="md-badge" id="mdBadge">Spot</span>
+            </div>
+            <div class="md-sub" id="mdName">Bitcoin</div>
+          </div>
+        </div>
+        <button type="button" class="md-fav" id="mdFavBtn" onclick="toggleMdFav()">★</button>
+      </div>
+
+      <div class="md-price-block">
+        <div class="md-price" id="mdPrice">—</div>
+        <div class="md-price-sub">
+          <span id="mdPriceUsd">—</span>
+          <span id="mdChange" class="md-chg">—</span>
+        </div>
+      </div>
+
+      <div class="md-stats">
+        <div class="md-stat"><div class="l">Mark</div><div class="v" id="mdMark">—</div></div>
+        <div class="md-stat"><div class="l">24h vol</div><div class="v" id="mdVol">—</div></div>
+        <div class="md-stat"><div class="l">24h high</div><div class="v" id="mdHigh">—</div></div>
+        <div class="md-stat"><div class="l">24h low</div><div class="v" id="mdLow">—</div></div>
+      </div>
+
+      <div class="md-tf-row">
+        <button type="button" class="md-tf" data-tf="15m" onclick="setMdTimeframe('15m',this)">15m</button>
+        <button type="button" class="md-tf" data-tf="1h" onclick="setMdTimeframe('1h',this)">1h</button>
+        <button type="button" class="md-tf on" data-tf="4h" onclick="setMdTimeframe('4h',this)">4h</button>
+        <button type="button" class="md-tf" data-tf="1d" onclick="setMdTimeframe('1d',this)">1D</button>
+        <button type="button" class="md-tf" data-tf="1w" onclick="setMdTimeframe('1w',this)">1W</button>
+      </div>
+
+      <div class="md-chart-wrap">
+        <canvas id="mdChart" width="400" height="220"></canvas>
+        <div class="md-chart-empty" id="mdChartEmpty">Memuat chart…</div>
+      </div>
+
+      <div class="md-ind">VOL · MA5 · MA10</div>
+
+      <div class="md-trade">
+        <div class="md-side-tabs">
+          <button type="button" class="md-side on" id="mdSideBuy" onclick="setMdSide('buy')">Buy</button>
+          <button type="button" class="md-side sell" id="mdSideSell" onclick="setMdSide('sell')">Sell</button>
+        </div>
+        <div class="md-trade-row">
+          <label>Jumlah</label>
+          <div class="md-amt-box">
+            <input id="mdAmount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" oninput="updateMdEst()">
+            <span id="mdAmtSym">BTC</span>
+          </div>
+        </div>
+        <div class="md-trade-meta">
+          <span>Est. ≈ $<span id="mdEstUsd">0.00</span></span>
+          <span>Spot · slippage ~0.5%</span>
+        </div>
+        <div class="md-actions">
+          <button type="button" class="md-btn buy" id="mdBtnBuy" onclick="executeMdTrade('buy')">Buy</button>
+          <button type="button" class="md-btn sell" id="mdBtnSell" onclick="executeMdTrade('sell')">Sell</button>
+        </div>
+        <p class="md-hint" id="mdHint">Chart live. Eksekusi spot on-chain via Swap (bukan futures/perp).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Preferences (Bitget-style) ===== -->
+  <div class="screen" id="screen-preferences">
+    <div class="pref-topbar">
+      <button type="button" class="pref-back" onclick="showScreen('settings')" aria-label="Kembali">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="pref-title" data-i18n="preferences">Preferensi</div>
+      <span class="pref-top-spacer"></span>
+    </div>
+    <div class="home-scroll pref-scroll">
+      <div class="pref-list">
+        <button type="button" class="pref-row" onclick="openPrefPicker('lang')">
+          <span class="pref-row-label" data-i18n="language">Bahasa</span>
+          <span class="pref-row-val" id="prefLangVal">Bahasa Indonesia</span>
+          <svg class="pref-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="pref-row" onclick="openPrefPicker('currency')">
+          <span class="pref-row-label" data-i18n="currency">Mata uang</span>
+          <span class="pref-row-val" id="prefCurVal">USD ($)</span>
+          <svg class="pref-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="pref-row" onclick="openPrefPicker('theme')">
+          <span class="pref-row-label" data-i18n="theme">Tema</span>
+          <span class="pref-row-val" id="prefThemeVal">Gelap</span>
+          <svg class="pref-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="pref-row" onclick="openPrefPicker('priceColor')">
+          <span class="pref-row-label" data-i18n="price_color">Warna perubahan harga</span>
+          <span class="pref-row-val pref-arrows" id="prefColorVal"><span class="up">↑</span> <span class="down">↓</span></span>
+          <svg class="pref-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="pref-row" onclick="openPrefPicker('defaultPage')">
+          <span class="pref-row-label" data-i18n="default_page">Halaman awal default</span>
+          <span class="pref-row-val" id="prefHomeVal">Dompet</span>
+          <svg class="pref-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<div class="screen" id="screen-settings">
+
+    <div class="topbar set-topbar">
+      <button class="back set-back-btn" onclick="showScreen('home')" aria-label="Kembali"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="brand set-title" data-i18n="settings">Pengaturan</div>
+      <span style="width:40px"></span>
+    </div>
+    <div class="home-scroll" style="flex:1;overflow-y:auto;padding-bottom:24px">
+      <div class="set-profile" onclick="openAccountManage()">
+        <img id="setAvatar" src="" alt="">
+        <div class="set-profile-text">
+          <div class="nm" id="setWalletName">Wallet</div>
+          <div class="sub" data-i18n="manage_profile">Kelola seed phrase, kunci pribadi, nama, dan avatar</div>
+        </div>
+        <span class="set-arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+
+      <div class="set-group">
+        <div class="set-item" onclick="openSecurityCenter()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="set-label" data-i18n="security">Keamanan</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+      </div>
+
+      <div class="set-group">
+        <div class="set-item" onclick="openAddressBook(false)">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h6"/></svg></span>
+          <span class="set-label" data-i18n="address_book">Buku alamat</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openGasSettings()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V6a2 2 0 012-2h8a2 2 0 012 2v16"/><path d="M15 10h2a2 2 0 012 2v2a2 2 0 01-2 2h-2"/><path d="M7 10h4M7 14h4M7 22V10"/></svg></span>
+          <span class="set-label" data-i18n="gas_pref">Preferensi Gas</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openAutoLockSettings()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+          <span class="set-label">Auto-Lock</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openNotifications()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 106 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></span>
+          <span class="set-label">Notifikasi</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openPreferences()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span>
+          <span class="set-label" data-i18n="preferences">Preferensi</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openRpcHealth()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span>
+          <span class="set-label" data-i18n="node_route">Node &amp; rute jaringan</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openReferralCenter()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg></span>
+          <span class="set-label" data-i18n="referral">Referral</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="showToast('Uji beta: Anda sudah di dalam build dev')">
+          <span class="ic ic-svg ic-accent"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+          <span class="set-label" data-i18n="beta">Gabung uji beta</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openWalletConnect()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></span>
+          <span class="set-label" data-i18n="connect_wc">Hubungkan Wallet / WC</span>
+          <span class="right" data-i18n="connect">Hubungkan</span>
+        </div>
+      </div>
+
+      <div class="set-group">
+        <div class="set-item" onclick="showBackupGuide()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></svg></span>
+          <span class="set-label"><span data-i18n="seed_guide">Panduan Backup Seed</span></span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="window.goHardwareFromImport?window.goHardwareFromImport():showScreen('hardware')">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></span>
+          <span class="set-label">Hardware Wallet</span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+        <div class="set-item" onclick="openAbout()">
+          <span class="ic ic-svg"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
+          <span class="set-label"><span data-i18n="about_app">Tentang BaseRocky Wallet</span></span>
+          <span class="arrow"><svg class="set-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+        </div>
+      </div>
+
+      <div class="set-footer-actions">
+        <button type="button" class="set-footer-btn" onclick="openHelpCenter()">
+          <span class="set-footer-ico"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></span>
+          <span data-i18n="get_help">Dapatkan bantuan</span>
+        </button>
+        <button type="button" class="set-footer-btn" onclick="openCrypto101()">
+          <span class="set-footer-ico"><svg class="set-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+          <span data-i18n="crypto_101">Kripto 101</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+<div class="screen" id="screen-token">
+    <div class="td-head">
+      <button class="x" onclick="showScreen('home')">✕</button>
+      <img id="tdIcon" src="" alt="">
+      <div>
+        <div class="tn" id="tdSymbol">ETH</div>
+        <div class="tc" id="tdChain">Base</div>
+      </div>
+    </div>
+    <div class="td-bal">
+      <div class="big" id="tdBal">0</div>
+      <div class="usd" id="tdUsd">≈ $0.00</div>
+      <div class="chg" id="tdChg"><span data-i18n="change_today">Perubahan hari ini</span> —</div>
+    </div>
+    <div class="td-actions">
+      <button class="dep" onclick="showScreen('receive')" data-i18n="deposit">Deposit</button>
+      <button class="tr" id="tdTransfer">Transfer</button>
+      <button class="trade" onclick="showScreen('swap')">Trading</button>
+    </div>
+    <div class="td-card">
+      <div class="label">Alamat penerima</div>
+      <div class="addr-row">
+        <div class="addr" id="tdAddr">—</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-ghost" id="tdCopy">📋</button>
+          <button class="btn btn-sm btn-ghost" id="tdQr">▢</button>
+        </div>
+      </div>
+    </div>
+    <div class="td-grid">
+      <div class="td-mini"><div class="t">Produk Earn</div><div class="s">APY di Base DeFi</div></div>
+      <div class="td-mini" onclick="showScreen('swap')"><div class="t">Swap</div><div class="s"><span data-i18n="swap_tokens">Tukar token</span></div></div>
+    </div>
+    <div class="td-hist">
+      <div class="hh"><span>Riwayat transaksi</span><span style="color:var(--muted);font-weight:500;cursor:pointer" onclick="showScreen('history')">›</span></div>
+      <div id="tdTxList"><div class="empty" style="padding:16px">Belum ada data</div></div>
+    </div>
+    <div class="td-price">
+      <div>
+        <div class="hint" id="tdPriceLabel">Harga</div>
+        <div class="p" id="tdPrice">$0.00 <span id="tdPriceChg" class="tok-up"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-transfer">
+    <div class="topbar">
+      <button class="back" onclick="showScreen('token')">← Kembali</button>
+      <div class="brand" style="font-size:1rem">Transfer</div>
+      <span style="width:40px"></span>
+    </div>
+    <div class="tf-token"><div class="pill"><img id="tfIcon" src="" alt=""><span id="tfSymBal">ETH: 0</span></div></div>
+    <div class="tf-amt">
+      <div class="display" id="tfDisplay"><span class="cursor"></span>0<span class="cur">ETH</span></div>
+      <input id="tfAmt" type="hidden" value="0">
+      <div class="usd" id="tfUsd">$0.00</div>
+    </div>
+    <div class="tf-fields">
+      <div class="tf-field" onclick="openAddressPicker()">
+        <div><div class="l">Alamat penerima</div><div class="v" id="tfTo">Pilih alamat ›</div></div>
+      </div>
+      <div class="tf-field" onclick="openNetworkPicker()">
+        <div><div class="l"><span data-i18n="network">Jaringan</span></div><div class="v" id="tfNet">Base</div></div>
+      </div>
+    </div>
+    <div class="tf-pct">
+      <button data-pct="25">25%</button>
+      <button data-pct="50">50%</button>
+      <button data-pct="75">75%</button>
+      <button data-pct="100">100%</button>
+    </div>
+    <div class="tf-pad" id="tfPad"></div>
+    <div style="padding:0 16px 20px">
+      <button class="btn btn-primary" style="max-width:none;border-radius:28px;padding:16px" id="tfNext">Selanjutnya</button>
+    </div>
+  </div>
+
+  <div class="screen no-nav" id="screen-addrpick">
+    <div class="ap-top">
+      <button type="button" class="ap-back" onclick="showScreen('transfer')" aria-label="Kembali">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1 class="ap-title">Alamat penerima</h1>
+      <span class="ap-top-sp"></span>
+    </div>
+    <div class="ap-body">
+      <div class="ap-input-card" id="apInputCard">
+        <textarea id="apInput" placeholder="Masukkan alamat dompet penerima" rows="3" autocomplete="off" spellcheck="false" autocapitalize="off"></textarea>
+        <div class="ap-input-tools">
+          <button type="button" class="ap-tool" id="apCopy" title="Salin" style="display:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+          <button type="button" class="ap-tool" id="apClear" title="Hapus" style="display:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="ap-actions">
+        <button type="button" class="ap-act" id="apScan">
+          <svg class="ap-act-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/>
+            <path d="M7 12h10" stroke-dasharray="2 3"/>
+          </svg>
+          Pindai
+        </button>
+        <button type="button" class="ap-act" id="apPaste">
+          <svg class="ap-act-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="8" width="12" height="12" rx="2"/>
+            <path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/>
+          </svg>
+          Tempel
+        </button>
+      </div>
+
+      <div class="ap-tabs" role="tablist">
+        <button type="button" class="ap-tab on" data-tab="recent" id="apTabRecent">Baru digunakan</button>
+        <button type="button" class="ap-tab" data-tab="mine" id="apTabMine">Dompet saya</button>
+        <button type="button" class="ap-tab" data-tab="book" id="apTabBook">Buku alamat</button>
+      </div>
+
+      <div id="apList" class="ap-list" role="list"></div>
+    </div>
+  </div>
+
+  <div class="screen no-nav" id="screen-tf-confirm">
+    <div class="tfc-top">
+      <button type="button" class="tfc-back" onclick="showScreen('transfer')" aria-label="Back">‹</button>
+      <h1 class="tfc-title">Confirm transfer</h1>
+      <span class="tfc-top-spacer"></span>
+    </div>
+    <div class="tfc-body">
+      <div class="tfc-hero">
+        <div class="tfc-ico-wrap" id="tfcIcoWrap">
+          <img class="tfc-ico-img" id="tfcIcoImg" alt="" style="display:none">
+          <div class="tfc-ico" id="tfcIco">BRO</div>
+          <span class="tfc-net-badge" id="tfcNetBadge" title="Network"></span>
+        </div>
+        <div class="tfc-amt" id="tfcAmt">- 0</div>
+        <div class="tfc-usd" id="tfcUsd">$0.00</div>
+      </div>
+
+      <div class="tfc-card">
+        <div class="tfc-card-label-row">
+          <div class="tfc-card-label">Recipient</div>
+          <button type="button" class="tfc-copy-btn" id="tfcCopyTo" onclick="copyTfRecipient()" title="Copy address">⧉ Copy</button>
+        </div>
+        <div class="tfc-card-addr mono" id="tfcTo">—</div>
+        <div class="tfc-tag" id="tfcToTag" style="display:none"></div>
+      </div>
+
+      <div class="tfc-card tfc-card-meta">
+        <div class="tfc-row">
+          <span class="l">From</span>
+          <span class="r mono" id="tfcFrom">—</span>
+        </div>
+        <div class="tfc-row">
+          <span class="l">Network</span>
+          <span class="r" id="tfcNetwork">Base</span>
+        </div>
+        <div class="tfc-row">
+          <span class="l">Network fee</span>
+          <span class="r" id="tfcGas">—</span>
+        </div>
+      </div>
+
+      <div class="tfc-footer">
+        <button type="button" class="tfc-send" id="tfcSend">Transfer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- sendBanner removed: used bgSendBanner only -->
+
+
+
+  <div class="screen" id="screen-manage">
+    <div class="topbar">
+      <button class="back" onclick="showScreen('home')" style="margin:0">←</button>
+      <div class="brand" style="font-size:1rem">Kelola token</div>
+      <button class="btn btn-sm btn-ghost" onclick="openNetworkPicker()">🌐</button>
+    </div>
+    <div class="mt-search"><input id="mtSearch" placeholder="🔍 Masukkan nama token atau alamat kontrak" oninput="renderManageTokens()"></div>
+    <div class="home-scroll" style="flex:1;overflow-y:auto">
+      <div class="mt-sec">Token yang ditampilkan</div>
+      <div id="mtActive"></div>
+      <div class="mt-sec">Token Populer</div>
+      <div id="mtPopular"></div>
+    </div>
+  </div>
+
+
+  <div class="screen" id="screen-backup-guide">
+    <div class="panel">
+      <button class="back" onclick="showScreen('settings')">← Kembali</button>
+      <h2>Panduan Backup Seed</h2>
+      <p class="hint">Ikuti langkah ini dengan teliti. Seed phrase adalah kunci utama dompet Anda.</p>
+      <div id="guideSteps"></div>
+      <div id="guideSeedArea" style="display:none">
+        <div class="sec-card sec-warn"><p style="margin:0">Jangan screenshot. Jangan simpan di cloud/email. Tulis di kertas dan simpan aman.</p></div>
+        <div class="seed-grid" id="guideSeedGrid"></div>
+        <label class="toggle-row" style="margin-top:8px"><span>Saya sudah menulis seed di tempat aman</span><input type="checkbox" id="guideConfirmChk" onchange="document.getElementById('guideDoneBtn').disabled=!this.checked"></label>
+        <button class="btn btn-primary" id="guideDoneBtn" disabled onclick="finishBackupGuide()" style="max-width:none;margin-top:12px">Selesai</button>
+      </div>
+      <button class="btn btn-primary" id="guideNextBtn" onclick="guideNext()" style="max-width:none;margin-top:16px">Lanjut</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-hardware">
+    <div class="panel">
+      <button class="back" onclick="showScreen('settings')">← Kembali</button>
+      <h2>Hardware Wallet</h2>
+      <p class="hint">Hubungkan Ledger atau Trezor via USB. Browser harus mendukung WebUSB/WebHID.</p>
+      <div class="hw-card" onclick="connectLedger()">
+        <div class="ico">🛡️</div>
+        <div><div class="t">Ledger</div><div class="s">Nano S / Nano X · Ethereum app</div></div>
+      </div>
+      <div class="hw-card" onclick="connectTrezor()">
+        <div class="ico">🔐</div>
+        <div><div class="t">Trezor</div><div class="s">Model One / Model T · via Trezor Connect</div></div>
+      </div>
+      <div class="sec-card" id="hwStatus"><p style="margin:0" class="hint">Belum terhubung</p></div>
+      <p class="hint" style="margin-top:12px">Catatan: private key tidak pernah meninggalkan perangkat hardware. BaseRocky hanya meminta alamat & tanda tangan.</p>
+    </div>
+  </div>
+
+
+  <div class="screen" id="screen-dapps">
+    <div class="bg-top">
+      <div class="avatar" onclick="openProfileMenu()"><img id="berandaLogo" onclick="openProfileMenu()" style="cursor:pointer" src="icon-192.png" alt=""><span class="dot"></span></div>
+      <div class="search" onclick="document.getElementById('dappSearch')&&document.getElementById('dappSearch').focus()">🔍 <span data-i18n="search_apps">Cari aplikasi</span></div>
+      <div class="icon-btn" onclick="showToast('Scan QR')" title="Scan">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2"/><path d="M7 7h4v4H7zM13 13h4v4h-4z"/></svg>
+      </div>
+      <div class="icon-btn" onclick="showScreen('settings')" title="Profil">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="9.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/></svg>
+      </div>
+    </div>
+    <div class="home-scroll" style="flex:1;overflow-y:auto">
+      <div class="bg-bal-row">
+        <div>
+          <div class="amt" id="berandaBal">$0.00</div>
+          <div class="chg" id="berandaChg"><span class="muted" data-i18n="change_today">Perubahan hari ini</span></div>
+        </div>
+        <button class="bg-deposit" onclick="openDepositSheet()" data-i18n="deposit" data-i18n="deposit">Deposit</button>
+      </div>
+      <div class="bg-quick">
+        <div class="q" onclick="showScreen('receive')">
+          <div class="ic q-ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2"/><path d="M8 8h3v3H8zM13 8h3v3h-3zM8 13h3v3H8zM13 13h1.5v1.5H13zM15.5 15.5H17V17h-1.5zM13 16.5h1.5V18H13z"/></svg>
+          </div><span data-i18n="pay_qr">Bayar QR</span>
+        </div>
+        <div class="q" onclick="showToast('Hadiah segera hadir')">
+          <div class="ic q-ic q-gift">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8v13M5 12h14v9H5zM3 8h18v4H3z"/><path d="M12 8c-1.5-3-4-4-5.5-3.5S4 7 5.5 8M12 8c1.5-3 4-4 5.5-3.5S20 7 18.5 8"/></svg>
+          </div><span data-i18n="gift">Hadiah</span>
+        </div>
+        <div class="q" onclick="showDiscover()">
+          <div class="ic q-ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
+          </div><span data-i18n="dapp">DApp</span>
+        </div>
+        <div class="q" onclick="showToast('eSIM segera hadir')">
+          <div class="ic q-ic q-esim">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/><path d="M4 8v2M4 14v2M20 8v2M20 14v2"/></svg>
+          </div><span data-i18n="esim">eSIM</span>
+        </div>
+      </div>
+      <div class="bg-promo" id="bgPromo">
+        <div class="txt"><span data-i18n="promo_affiliate">Dicari Afiliasi Global, komisi ganda jalur pro</span><br><a href="#" onclick="showDiscover();return false" data-i18n="learn_more">Pelajari lebih lanjut ›</a></div>
+        <div class="art art-mascot" aria-hidden="true">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <rect width="64" height="64" rx="16" fill="#1a2740"/>
+            <circle cx="32" cy="30" r="16" fill="#00d4aa"/>
+            <circle cx="26" cy="28" r="2.2" fill="#0a1628"/>
+            <circle cx="38" cy="28" r="2.2" fill="#0a1628"/>
+            <path d="M26 35c2 2.5 10 2.5 12 0" stroke="#0a1628" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 18c2-4 6-6 8-4M46 18c-2-4-6-6-8-4" stroke="#00d4aa" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <button class="x" onclick="this.parentElement.style.display='none'">✕</button>
+      </div>
+      <div class="bg-sec"><span data-i18n="ongoing">Sedang berlangsung</span><span class="more" onclick="showToast('Semua berita')" data-i18n="all">Semua ▾</span></div>
+      <div id="newsFeed"></div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-discover">
+    <div class="disc-topbar">
+      <button type="button" class="disc-back" onclick="showScreen('home')" aria-label="Kembali">
+        <svg class="ico-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="disc-title" data-i18n="discover">Temukan</div>
+      <button type="button" class="disc-link-btn" onclick="showToast('Salin link')" aria-label="Link">
+        <svg class="ico-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="disc-search-wrap">
+      <svg class="disc-search-ico ico-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/>
+        <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="dappSearch" class="disc-search" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Masukkan nama atau url DApp" data-i18n-placeholder="discover_search_ph" oninput="renderDiscover()">
+      <button type="button" class="disc-scan-btn" onclick="showToast('Scan QR')" aria-label="Scan">
+        <svg class="ico-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 9V6a2 2 0 012-2h3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M15 4h3a2 2 0 012 2v3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M20 15v3a2 2 0 01-2 2h-3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M9 20H6a2 2 0 01-2-2v-3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          <rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+      </button>
+    </div>
+    <div class="home-scroll disc-scroll" style="flex:1;overflow-y:auto">
+      <div class="disc-tabs" id="discTabs">
+        <span class="on" data-tab="populer" data-i18n="popular">Populer</span>
+        <span data-tab="mine" data-i18n="my_dapps">DApp saya</span>
+        <span data-tab="exchange">Exchange</span>
+        <span data-tab="bridge">Bridge</span>
+        <span data-tab="defi">DeFi</span>
+        <span data-tab="nft">NFT</span>
+        <span data-tab="tool">Tools</span>
+      </div>
+      <div id="dappList"></div>
+    </div>
+  </div>
+
+  <!-- ===== Referral Center — Bitget-style ===== -->
+  <div class="screen" id="screen-referral">
+    <div class="ref-header">
+      <button class="ref-back" onclick="showScreen('settings')" aria-label="Kembali">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="ref-header-title">Pusat Referral</div>
+      <span style="width:40px"></span>
+    </div>
+
+    <div class="home-scroll" style="flex:1;overflow-y:auto;padding-bottom:28px">
+
+      <!-- Promo section -->
+      <div class="ref-section-label">Promosi referral</div>
+
+      <div class="ref-promo-card" onclick="openRefPromoDetail()">
+        <div class="ref-promo-bg"></div>
+        <div class="ref-promo-body">
+          <div class="ref-promo-left">
+            <div class="ref-promo-title">Rabat BROCK</div>
+            <div class="ref-promo-desc">Dapatkan hadiah saat temanmu bergabung & aktif di BaseRocky.</div>
+            <div class="ref-promo-tags">
+              <span class="ref-tag">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                Aktivasi
+              </span>
+              <span class="ref-tag">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                Komisi aktivitas
+              </span>
+            </div>
+          </div>
+          <div class="ref-promo-right">
+            <div class="ref-promo-badge">Per teman</div>
+            <div class="ref-promo-amount"><span>5</span> USD</div>
+          </div>
+        </div>
+        <div class="ref-promo-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+
+      <!-- Trading rebate unlock card -->
+      <div class="ref-unlock-card">
+        <div class="ref-unlock-title">Buka rabat trading</div>
+        <div class="ref-unlock-row">
+          <div class="ref-unlock-left">
+            <span class="ref-unlock-name">Rabat swap</span>
+            <span class="ref-unlock-hint">Hingga <b>60%</b></span>
+          </div>
+          <div class="ref-lock-ico" id="refLockSwap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+        </div>
+        <div class="ref-unlock-row">
+          <div class="ref-unlock-left">
+            <span class="ref-unlock-name">Rabat fee jaringan</span>
+            <span class="ref-unlock-hint">Hingga <b>20%</b></span>
+          </div>
+          <div class="ref-lock-ico" id="refLockFee">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+        </div>
+        <button class="ref-btn-primary" onclick="openRefRegister()">Daftar sekarang</button>
+        <button class="ref-btn-ghost" onclick="showScreen('settings')">Mungkin nanti</button>
+      </div>
+
+      <!-- My referral code strip -->
+      <div class="ref-code-strip">
+        <div class="ref-code-strip-label">Kode referral Anda</div>
+        <div class="ref-code-strip-row">
+          <span class="ref-code-val" id="refCodeDisplay">------</span>
+          <button class="ref-icon-btn" onclick="copyRefCode()" title="Salin">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+          <button class="ref-icon-btn" onclick="openRefSharePreview()" title="Bagikan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats mini -->
+      <div class="ref-mini-stats">
+        <div class="ref-mini-stat">
+          <div class="ref-mini-val" id="refCount">0</div>
+          <div class="ref-mini-label">Teman</div>
+        </div>
+        <div class="ref-mini-stat">
+          <div class="ref-mini-val" id="refTier">Tier 1</div>
+          <div class="ref-mini-label">Level</div>
+        </div>
+        <div class="ref-mini-stat">
+          <div class="ref-mini-val" id="refPoints">0</div>
+          <div class="ref-mini-label">Poin</div>
+        </div>
+        <div class="ref-mini-stat">
+          <div class="ref-mini-val" id="refEarned">$0</div>
+          <div class="ref-mini-label">Estimasi</div>
+        </div>
+      </div>
+
+      <!-- Bind code -->
+      <div class="ref-bind-card" id="refBindCard">
+        <div class="ref-bind-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Punya kode teman?
+        </div>
+        <div class="ref-bind-row">
+          <input id="refBindInput" placeholder="Masukkan kode" maxlength="12" autocomplete="off" spellcheck="false">
+          <button class="ref-btn-sm" onclick="bindReferralCode()">Ikat</button>
+        </div>
+        <div id="refBoundInfo" class="ref-bound-info" style="display:none"></div>
+      </div>
+
+      <!-- How it works -->
+      <div class="ref-how">
+        <div class="ref-how-title">Cara kerja</div>
+        <div class="ref-how-step">
+          <div class="ref-how-num">1</div>
+          <div class="ref-how-text"><b>Bagikan kode / kartu undangan</b><span>Kirim ke teman lewat chat, X, atau QR</span></div>
+        </div>
+        <div class="ref-how-step">
+          <div class="ref-how-num">2</div>
+          <div class="ref-how-text"><b>Teman buat wallet & ikat kode</b><span>Mereka input kode Anda di Pusat Referral</span></div>
+        </div>
+        <div class="ref-how-step">
+          <div class="ref-how-num">3</div>
+          <div class="ref-how-text"><b>Dapat rabat & poin</b><span>Bonus aktivasi + komisi aktivitas</span></div>
+        </div>
+      </div>
+
+      <!-- Invite list -->
+      <div class="ref-list-card">
+        <div class="ref-list-head">
+          <span>Daftar undangan</span>
+          <span class="hint" id="refListCount"></span>
+        </div>
+        <div id="refInviteList" class="ref-invite-list">
+          <div class="ref-empty">Belum ada teman yang bergabung</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Share Preview Modal (Bitget-style card) -->
+  <div class="ref-share-overlay" id="refShareOverlay">
+    <div class="ref-share-sheet">
+      <div class="ref-share-handle"></div>
+      <div class="ref-share-title">Pratinjau</div>
+      <div class="ref-share-card" id="refShareCard">
+        <div class="ref-share-card-inner">
+          <div class="ref-share-headline">Earn Up to <span>5 USD</span></div>
+          <div class="ref-share-sub">per friend on BaseRocky</div>
+          <div class="ref-share-visual">
+            <div class="ref-share-wallet-card">
+              <div class="ref-share-logo">BR</div>
+              <div class="ref-share-chip"></div>
+            </div>
+          </div>
+          <div class="ref-share-code-line">
+            Tautkan kode referral saya:<br>
+            <strong id="refShareCode">------</strong>
+          </div>
+          <div class="ref-share-footer">
+            <div class="ref-share-brand">
+              <div class="ref-share-brand-ico">R</div>
+              <div>
+                <div class="ref-share-brand-name">BaseRocky Wallet</div>
+                <div class="ref-share-brand-sub">Invite you to scan and join</div>
+              </div>
+            </div>
+            <div id="refShareQrHost" class="qr-host qr-host-sm"></div><canvas id="refShareQr" width="56" height="56" style="display:none"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="ref-share-actions">
+        <button class="ref-share-act" onclick="downloadRefCard()">
+          <div class="ref-share-act-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <span>Unduh</span>
+        </button>
+        <button class="ref-share-act" onclick="copyRefLink()">
+          <div class="ref-share-act-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <span>Salin tautan</span>
+        </button>
+        <button class="ref-share-act" onclick="shareToX()">
+          <div class="ref-share-act-ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.831L1.99 2.25h7.04l4.261 5.669L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          </div>
+          <span>Twitter (X)</span>
+        </button>
+        <button class="ref-share-act" onclick="shareReferral()">
+          <div class="ref-share-act-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          </div>
+          <span>Lainnya</span>
+        </button>
+      </div>
+      <button class="ref-btn-ghost" style="margin:8px 20px 0" onclick="closeRefShare()">Tutup</button>
+    </div>
+  </div>
+
+
+  <!-- Crypto 101 -->
+  <div class="screen" id="screen-crypto101">
+    <div class="pref-topbar">
+      <button type="button" class="pref-back" onclick="showScreen('settings')" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="pref-title" data-i18n="crypto_101">Kripto 101</div>
+      <span style="width:40px"></span>
+    </div>
+    <div class="home-scroll" style="flex:1;overflow-y:auto;padding:12px 16px 32px">
+      <div id="crypto101Body" class="c101-body"></div>
+    </div>
+  </div>
+
+  <!-- Help Center -->
+  <div class="screen" id="screen-help">
+    <div class="pref-topbar">
+      <button type="button" class="pref-back" onclick="showScreen('settings')" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="pref-title" data-i18n="get_help">Dapatkan bantuan</div>
+      <span style="width:40px"></span>
+    </div>
+    <div class="home-scroll" style="flex:1;overflow-y:auto;padding:12px 16px 32px">
+      <div id="helpBody" class="c101-body"></div>
+    </div>
+  </div>
+
+<nav class="bottom-nav" id="bottomNav" style="display:none">
+    <!-- Home = Bitget feed (screen-dapps) · Wallet = token portfolio (screen-home) -->
+    <button class="nav-item active" onclick="navTo('dapps', this)">
+      <span class="ni ni-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 10v9a1 1 0 001 1h3.5V15a1.5 1.5 0 011.5-1.5h2A1.5 1.5 0 0114.5 15v5H18a1 1 0 001-1v-9"/></svg></span>
+      <span class="nl">Home</span>
+    </button>
+    <button class="nav-item" onclick="navTo('market', this);if(typeof refreshMarket==='function')refreshMarket(false)">
+      <span class="ni ni-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-5 3 3 5-7"/></svg></span>
+      <span class="nl">Markets</span>
+    </button>
+    <button class="nav-item" onclick="navTo('swap', this)">
+      <span class="ni ni-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></span>
+      <span class="nl">Trade</span>
+    </button>
+    <button class="nav-item" onclick="navTo('receive', this)">
+      <span class="ni ni-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg></span>
+      <span class="nl">Pay</span>
+    </button>
+    <button class="nav-item" onclick="navTo('home', this)">
+      <span class="ni ni-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><path d="M18 12a2 2 0 100 4h4v-4h-4z"/></svg></span>
+      <span class="nl">Wallet</span>
+    </button>
+  </nav>
+</div>
+
+
+<div class="prof-bg" id="profBg">
+  <div class="prof-panel" id="profPanel">
+    <div class="prof-head">
+      <div class="icon-btn" onclick="closeProfileMenu()">✕</div>
+      <div style="display:flex;gap:8px">
+        <div class="icon-btn" onclick="showToast('Scan')">▢</div>
+        <div class="icon-btn" onclick="showToast('Bantuan')">🎧</div>
+        <div class="icon-btn" onclick="closeProfileMenu();showScreen('settings')">⚙</div>
+      </div>
+    </div>
+    <div class="prof-user">
+      <img id="profAvatar" src="" alt="">
+      <div>
+        <div class="nm" id="profName">Wallet</div>
+        <div class="bal" id="profBal">$0.00</div>
+      </div>
+      <button class="switch" onclick="closeProfileMenu();if(typeof openWalletSwitcher==='function')openWalletSwitcher();else showToast('Ganti wallet')">Beralih</button>
+    </div>
+    <div class="prof-card">
+      <div class="hd"><span>Notifikasi</span><span><span class="dot"></span>›</span></div>
+      <div id="profNotifs"></div>
+    </div>
+    <div class="prof-card">
+      <div class="hd"><span>Terakhir digunakan</span></div>
+      <div class="prof-apps" id="profApps"></div>
+    </div>
+    <div class="prof-card">
+      <div class="hd"><span>Transaksi terbaru</span><span style="color:var(--muted);font-weight:500;cursor:pointer" onclick="closeProfileMenu();showScreen('history')">›</span></div>
+      <div id="profTx"></div>
+    </div>
+    <div class="prof-search" onclick="closeProfileMenu();showDiscover()">🔍 <span data-i18n="search_short">Cari</span></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="loading">
+  <div class="load-orb">
+    <div class="load-ring r1"></div>
+    <div class="load-ring r2"></div>
+    <div class="load-ring r3"></div>
+    <div class="load-core"></div>
+  </div>
+  <div class="msg" id="loadingMsg" data-i18n="loading">Memuat…</div>
+  <div class="load-bar"><i id="loadingBar"></i></div>
+</div>
+<div class="offline-banner" id="offlineBanner">⚠ Tidak ada koneksi internet</div>
+
+<div id="pinOverlay">
+  <div class="rocky-hero" style="width:64px;height:64px;border-radius:16px;margin-bottom:8px"><img src="icon-192.png" alt=""></div>
+  <h2 style="font-size:1.15rem" id="pinTitle">Masukkan PIN</h2>
+  <p class="hint" id="pinHint">Masukkan 6-digit PIN Anda</p>
+  <div class="pin-dots" id="pinDots">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p class="pin-err" id="pinErr"></p>
+  <div class="pin-pad" id="pinPad"></div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- ===== Bitget-style Create Wallet Flow ===== -->
+<div id="bgCreateFlow" class="bg-create-flow" aria-hidden="true">
+  <!-- Step: Creating -->
+  <div class="bg-cf-step" id="bgCfCreating">
+    <div class="bg-cf-icon-wrap">
+      <div class="bg-cf-orbit">
+        <span class="bg-cf-sat s1"></span>
+        <span class="bg-cf-sat s2"></span>
+        <span class="bg-cf-sat s3"></span>
+      </div>
+      <div class="bg-cf-icon-ring"></div>
+      <div class="bg-cf-icon-ring delay"></div>
+      <div class="bg-cf-wallet-ico">
+        <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+          <rect x="8" y="16" width="48" height="36" rx="8" stroke="#5eead4" stroke-width="3" fill="#0d9488" fill-opacity=".25"/>
+          <rect x="28" y="28" width="28" height="16" rx="4" fill="#5eead4"/>
+          <circle cx="48" cy="36" r="3" fill="#0f172a"/>
+          <path d="M20 16 V12 a6 6 0 0 1 6-6 h12 a6 6 0 0 1 6 6" stroke="#5eead4" stroke-width="3" fill="none"/>
+        </svg>
+      </div>
+      <span class="bg-cf-dot"></span>
+    </div>
+    <h2 class="bg-cf-title">Membuat dompet<span class="bg-cf-ellipsis"></span></h2>
+    <p class="bg-cf-sub">Dompet multi-chain aman yang dipercaya oleh<br>juta pengguna.</p>
+    <div class="bg-cf-progress">
+      <div class="bg-cf-progress-track"><i id="bgCfProgressBar"></i></div>
+      <div class="bg-cf-progress-steps">
+        <span class="on">Generate</span>
+        <span>Enkripsi</span>
+        <span>Siap</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step: Success -->
+  <div class="bg-cf-step" id="bgCfSuccess" style="display:none">
+    <div class="bg-cf-success-burst" aria-hidden="true"></div>
+    <div class="bg-cf-check">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" fill="rgba(14,203,129,.15)" stroke="#0ECB81" stroke-width="2"/>
+        <path d="M20 33l8 8 16-18" stroke="#0ECB81" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2 class="bg-cf-title">Dompet berhasil<br>dibuat!</h2>
+    <p class="bg-cf-sub">Jelajahi dompet yang mendukung 130+<br>mainnet.</p>
+    <button type="button" class="btn btn-primary bg-cf-cta" id="bgCfContinue">Lanjutkan</button>
+  </div>
+
+  <!-- Step: Create PIN (Bitget style) -->
+  <div class="bg-cf-step bg-cf-pin" id="bgCfPin" style="display:none">
+    <div class="bg-cf-pin-hero">
+      <div class="bg-cf-pin-hero-bg"></div>
+    </div>
+    <div class="bg-cf-pin-sheet">
+      <div class="bg-cf-pin-handle"></div>
+      <h2 class="bg-cf-pin-title" id="bgCfPinTitle">Buat kode sandi</h2>
+      <p class="bg-cf-pin-hint" id="bgCfPinHint">Masukkan 6 digit PIN untuk mengamankan dompet</p>
+      <div class="bg-cf-pin-dots" id="bgCfPinDots">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p class="bg-cf-pin-err" id="bgCfPinErr"></p>
+      <div class="bg-cf-pin-pad" id="bgCfPinPad"></div>
+      <button type="button" class="bg-cf-pin-skip" id="bgCfPinSkip">Lewati dulu</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bitget-style Transfer Flow (Amount → Alamat → Konfirmasi → PIN) -->
+<div id="bgTransferFlow" class="bg-tf-flow" aria-hidden="true">
+  <!-- Step 1: Amount -->
+  <div class="bg-tf-step" id="bgTfAmount">
+    <div class="bg-tf-top">
+      <button type="button" class="bg-tf-icon-btn" onclick="closeBitgetTransfer()" aria-label="Tutup">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <h1 class="bg-tf-title">Transfer</h1>
+      <span style="width:36px"></span>
+    </div>
+    <button type="button" class="bg-tf-bal-pill" id="bgTfBalPill" onclick="bgTfPickToken()">
+      <img class="bg-tf-tok-img" id="bgTfTokImg" alt="" style="display:none">
+      <span class="bg-tf-tok-ico" id="bgTfTokIco">B</span>
+      <span id="bgTfBalText">BROCK: 0</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="bg-tf-amount-wrap">
+      <div class="bg-tf-amount-row">
+        <span class="bg-tf-amount empty" id="bgTfAmountDisplay">0</span>
+        <span class="bg-tf-sym" id="bgTfSym">BROCK</span>
+      </div>
+      <div class="bg-tf-usd" id="bgTfUsd">≈ $0.00</div>
+    </div>
+    <button type="button" class="bg-tf-field" id="bgTfFieldTo" onclick="bgTfGoRecipient()">
+      <span class="bg-tf-field-label">Alamat penerima</span>
+      <span class="bg-tf-field-val" id="bgTfToPreview">Pilih alamat ›</span>
+    </button>
+    <button type="button" class="bg-tf-field" onclick="typeof openNetworkPicker==='function'&&openNetworkPicker()">
+      <span class="bg-tf-field-label"><span data-i18n="network">Jaringan</span></span>
+      <span class="bg-tf-field-val" id="bgTfNet">Base</span>
+    </button>
+    <div class="bg-tf-pct">
+      <button type="button" onclick="bgTfPct(25)">25%</button>
+      <button type="button" onclick="bgTfPct(50)">50%</button>
+      <button type="button" onclick="bgTfPct(75)">75%</button>
+      <button type="button" onclick="bgTfPct(100)">100%</button>
+    </div>
+    <div class="bg-tf-pad" id="bgTfPad" role="group" aria-label="Keypad">
+      <button type="button" data-k="1">1</button>
+      <button type="button" data-k="2">2</button>
+      <button type="button" data-k="3">3</button>
+      <button type="button" data-k="4">4</button>
+      <button type="button" data-k="5">5</button>
+      <button type="button" data-k="6">6</button>
+      <button type="button" data-k="7">7</button>
+      <button type="button" data-k="8">8</button>
+      <button type="button" data-k="9">9</button>
+      <button type="button" data-k=".">.</button>
+      <button type="button" data-k="0">0</button>
+      <button type="button" data-k="⌫" class="bg-tf-pad-del" aria-label="Hapus">⌫</button>
+    </div>
+    <button type="button" class="bg-tf-cta" id="bgTfNextAmt" onclick="bgTfOnNextFromAmount()" disabled>Selanjutnya</button>
+  </div>
+
+  <!-- Step 2: Recipient -->
+  <div class="bg-tf-step" id="bgTfRecipient" style="display:none">
+    <div class="bg-tf-top">
+      <button type="button" class="bg-tf-icon-btn" onclick="bgTfShow('bgTfAmount')" aria-label="Kembali">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1 class="bg-tf-title">Alamat penerima</h1>
+      <span style="width:36px"></span>
+    </div>
+
+    <div class="bg-tf-addr-box" id="bgTfAddrBox">
+      <textarea id="bgTfToInput" rows="3" placeholder="Masukkan alamat dompet penerima" autocomplete="off" spellcheck="false" autocapitalize="off"></textarea>
+      <div class="bg-tf-addr-actions">
+        <button type="button" class="bg-tf-addr-act" id="bgTfCopyTo" onclick="bgTfCopyAddr()" style="display:none">Salin</button>
+        <button type="button" class="bg-tf-addr-act" id="bgTfClearTo" onclick="bgTfClearAddr()" style="display:none">Hapus</button>
+      </div>
+    </div>
+
+    <div class="bg-tf-row-btns">
+      <button type="button" class="bg-tf-sec-btn" onclick="bgTfScan()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><path d="M7 12h10" stroke-dasharray="2 3"/></svg>
+        Pindai
+      </button>
+      <button type="button" class="bg-tf-sec-btn" onclick="bgTfPaste()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></svg>
+        Tempel
+      </button>
+    </div>
+
+    <div class="bg-tf-tabs" role="tablist">
+      <button type="button" class="on" id="bgTfTabRecent" onclick="bgTfTab('recent')">Baru digunakan</button>
+      <button type="button" id="bgTfTabMine" onclick="bgTfTab('mine')">Dompet saya</button>
+      <button type="button" id="bgTfTabBook" onclick="bgTfTab('book')">Buku alamat</button>
+    </div>
+    <div id="bgTfWalletList" class="bg-tf-list" role="list"></div>
+    <button type="button" class="bg-tf-cta" id="bgTfNextTo" onclick="bgTfOnNextFromRecipient()" disabled>Berikutnya</button>
+  </div>
+
+  <!-- Step 3: Confirm -->
+  <div class="bg-tf-step" id="bgTfConfirm" style="display:none">
+    <div class="bg-tf-top">
+      <button type="button" class="bg-tf-icon-btn" onclick="bgTfShow('bgTfAmount')" aria-label="Kembali">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1 class="bg-tf-title">Konfirmasi pengiriman</h1>
+      <span style="width:36px"></span>
+    </div>
+    <div class="bg-tf-confirm-hero">
+      <div class="bg-tf-confirm-ico-wrap">
+        <img class="bg-tf-confirm-img" id="bgTfConfirmImg" alt="" style="display:none">
+        <div class="bg-tf-confirm-ico" id="bgTfConfirmIco">B</div>
+        <span class="bg-tf-confirm-net"></span>
+      </div>
+      <div class="bg-tf-confirm-amt" id="bgTfConfirmAmt">- 0</div>
+      <div class="bg-tf-usd" id="bgTfConfirmUsd">≈ $0.00</div>
+    </div>
+
+    <div class="bg-tf-gas-warn" id="bgTfGasWarn">
+      <div class="bg-tf-gas-warn-text">
+        <div class="bg-tf-gas-warn-title">Biaya jaringan tidak mencukupi</div>
+        <div class="bg-tf-gas-warn-desc" id="bgTfGasWarnDesc">Anda membutuhkan token native untuk membayar biaya jaringan. Silakan isi saldo untuk menyelesaikan transaksi.</div>
+      </div>
+      <button type="button" class="bg-tf-gas-topup" id="bgTfGasTopup" onclick="bgTfTopUpNative()">Top up</button>
+    </div>
+
+    <div class="bg-tf-card">
+      <div class="bg-tf-card-label-row">
+        <div class="bg-tf-card-label">Alamat penerima</div>
+        <button type="button" class="bg-tf-copy-mini" onclick="bgTfCopyConfirmAddr()">⧉</button>
+      </div>
+      <div class="bg-tf-card-addr" id="bgTfConfirmTo">—</div>
+      <div class="bg-tf-chip" id="bgTfConfirmToName" style="display:none"></div>
+    </div>
+    <div class="bg-tf-card">
+      <div class="bg-tf-row"><span class="bg-tf-card-label">Alamat pengirim</span><span id="bgTfConfirmFrom" class="bg-tf-mono">—</span></div>
+      <div class="bg-tf-row"><span class="bg-tf-card-label"><span data-i18n="network">Jaringan</span></span><span id="bgTfConfirmNet">Base</span></div>
+      <div class="bg-tf-row"><span class="bg-tf-card-label">Biaya jaringan</span><span id="bgTfConfirmGas">—</span></div>
+    </div>
+    <button type="button" class="bg-tf-cta" id="bgTfConfirmBtn" onclick="bgTfAskPin()">Transfer</button>
+  </div>
+
+  <!-- Step 4: PIN -->
+  <div class="bg-tf-step bg-tf-pin-step" id="bgTfPin" style="display:none">
+    <div class="bg-tf-pin-sheet">
+      <div class="bg-tf-handle"></div>
+      <button type="button" class="bg-tf-pin-close" onclick="bgTfShow('bgTfConfirm')" aria-label="Tutup">✕</button>
+      <h2>Masukkan kode sandi</h2>
+      <p class="bg-tf-pin-hint">Verifikasi identitas untuk mengirim</p>
+      <div class="bg-tf-pin-dots" id="bgTfPinDots">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p class="bg-tf-pin-err" id="bgTfPinErr"></p>
+      <div class="bg-tf-pad" id="bgTfPinPad"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Sending toast banner (Bitget style) -->
+<div id="bgSendBanner" class="bg-send-banner" aria-live="polite">
+  <div class="bg-send-banner-inner">
+    <div class="bg-send-ico-wrap" id="bgSendBannerIcoWrap">
+      <img class="bg-send-ico-img" id="bgSendBannerImg" alt="" style="display:none">
+      <div class="bg-send-ico" id="bgSendBannerIco">↑</div>
+      <span class="bg-send-net-dot" aria-hidden="true"></span>
+    </div>
+    <div class="bg-send-text">
+      <div class="bg-send-title" id="bgSendBannerTitle">Sending…</div>
+      <div class="bg-send-sub" id="bgSendBannerSub"></div>
+    </div>
+    <div class="bg-send-arrows" id="bgSendBannerArrows">›››</div>
+  </div>
+</div>
+
+<script>
+/* Hide splash after app ready (Bitget-style launch) */
+(function () {
+  var MIN_MS = 1200;
+  var MAX_MS = 2200;
+  var start = Date.now();
+  function hide() {
+    var el = document.getElementById('brSplash');
+    if (!el || el.classList.contains('is-hide')) return;
+    el.classList.add('is-hide');
+    el.setAttribute('aria-hidden', 'true');
+    setTimeout(function () {
+      try { el.remove(); } catch (e) {}
+    }, 500);
+  }
+  function tryHide() {
+    var waited = Date.now() - start;
+    var left = Math.max(0, MIN_MS - waited);
+    setTimeout(hide, left);
+  }
+  // Di Capacitor native: biarkan SplashScreen plugin yang tampil,
+  // HTML splash boleh lebih singkat agar tidak dobel
+  try {
+    if (window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) {
+      MIN_MS = 600;
+      MAX_MS = 1500;
+    }
+  } catch (e) {}
+  if (document.readyState === 'complete') tryHide();
+  else window.addEventListener('load', tryHide);
+  setTimeout(hide, MAX_MS);
+})();
+</script>
+
+<!-- replaced -->
+
+
+
+
+
+
+
+
+<script>
+/* BR Solana panel v4 — reliable switch-in */
+(function(){
+  var TOKENS=[
+    {id:'SOL',symbol:'SOL',icon:'https://assets.coingecko.com/coins/images/4128/small/solana.png'},
+    {id:'USDC',symbol:'USDC',icon:'https://assets.coingecko.com/coins/images/6319/small/usdc.png'},
+    {id:'USDT',symbol:'USDT',icon:'https://assets.coingecko.com/coins/images/325/small/Tether.png'},
+    {id:'BONK',symbol:'BONK',icon:'https://assets.coingecko.com/coins/images/28600/small/bonk.jpg'},
+    {id:'JUP',symbol:'JUP',icon:'https://assets.coingecko.com/coins/images/34188/small/jup.png'},
+    {id:'WIF',symbol:'WIF',icon:'https://assets.coingecko.com/coins/images/33566/small/dogwifhat.jpg'}
+  ];
+
+  function isSol(){
+    try{
+      var n = window.state && state.network;
+      return n === 'sol' || n === 'solana' || n === 'SOL';
+    }catch(e){ return false; }
+  }
+
+  function hidePanel(){
+    var panel = document.getElementById('brSolTokenPanel');
+    if (panel) { panel.style.display = 'none'; }
+  }
+
+  function ensureStateTokens(){
+    try{
+      if (!window.state) return;
+      if (typeof NET_TOKENS !== 'undefined' && NET_TOKENS.sol) {
+        state.tokens = NET_TOKENS.sol.map(function(x){ return Object.assign({}, x); });
+      } else {
+        state.tokens = TOKENS.map(function(x){
+          return { id:x.id, symbol:x.symbol, name:x.symbol, decimals:9, icon:x.icon };
+        });
+      }
+      if (!state.balances) state.balances = {};
+      state.tokens.forEach(function(t){
+        if (state.balances[t.id] == null) state.balances[t.id] = 0;
+      });
+      state.swapFrom = 'SOL';
+      state.swapTo = 'USDC';
+    }catch(e){}
+  }
+
+  function paint(){
+    if (!isSol()) { hidePanel(); return false; }
+    ensureStateTokens();
+
+    var list = document.getElementById('tokenList');
+    // Prefer writing into official tokenList so layout matches EVM
+    var rows = TOKENS.map(function(t){
+      var bal = 0;
+      try { bal = Number((state.balances && state.balances[t.id]) || 0) || 0; } catch(e){}
+      return (
+        '<div class="token-row" data-tid="'+t.id+'" style="display:flex;align-items:center;gap:12px;padding:12px 8px;border-bottom:1px solid rgba(42,49,60,.5)">'+
+        '<img src="'+t.icon+'" width="36" height="36" style="border-radius:50%;background:#1a1f2e" onerror="this.style.opacity=.3">'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:600;color:#e8edf5">'+t.symbol+'</div>'+
+        '<div style="font-size:12px;color:#8b95a5">Solana</div></div>'+
+        '<div style="text-align:right"><div style="font-weight:600;color:#e8edf5">'+bal+'</div>'+
+        '<div style="font-size:12px;color:#8b95a5">$0.00</div></div></div>'
+      );
+    }).join('');
+
+    if (list) {
+      list.innerHTML = rows;
+      list.style.display = 'flex';
+      list.style.flexDirection = 'column';
+      list.style.visibility = 'visible';
+      list.style.opacity = '1';
+      list.style.minHeight = '180px';
+    }
+
+    // Backup panel under list
+    var panel = document.getElementById('brSolTokenPanel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'brSolTokenPanel';
+      if (list && list.parentNode) list.parentNode.insertBefore(panel, list.nextSibling);
+    }
+    // Keep backup hidden if list has rows
+    if (list && list.querySelector('.token-row')) {
+      panel.style.display = 'none';
+      panel.innerHTML = '';
+    } else {
+      panel.style.cssText = 'display:block;padding:0 12px 20px;';
+      panel.innerHTML = '<div style="font-size:12px;color:#14F195;margin:8px 0;font-weight:600">Token Solana</div>' + rows;
+    }
+
+    // Tip text — single #brEmptyTip only
+    try {
+      var home = document.getElementById('screen-home') || document.body;
+      if (home) {
+        home.querySelectorAll('div, p').forEach(function(el) {
+          if (el.id === 'brEmptyTip') return;
+          var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+          if (/Saldo masih kosong/i.test(t) && /Receive/i.test(t) && t.length < 280) {
+            try { el.parentNode && el.parentNode.removeChild(el); } catch(e) {}
+          }
+        });
+      }
+    } catch(e) {}
+    var tip = document.getElementById('brEmptyTip');
+    if (tip) {
+      tip.style.cssText = 'margin:12px 16px;padding:14px;border-radius:14px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.25);font-size:.85rem;line-height:1.45;color:#c8d0dc;display:block';
+      tip.innerHTML = '<b style="color:#14F195">Saldo masih kosong</b><br>Ketuk <b>Receive</b> untuk menerima SOL / token SPL di jaringan <b>Solana</b>.';
+    }
+    try { if (typeof window.stripDupTips === 'function') window.stripDupTips(); } catch(e) {}
+    console.log('[BR] Sol tokens painted', TOKENS.length);
+    return true;
+  }
+
+  // Hook selectNetwork
+  function hook(){
+    if (typeof window.selectNetwork !== 'function' || window.selectNetwork._solV4) return;
+    var orig = window.selectNetwork;
+    window.selectNetwork = async function(id){
+      var r = await orig.apply(this, arguments);
+      if (id === 'sol' || id === 'solana' || isSol()) {
+        // burst paint — race against other renderHome clears
+        [0, 50, 150, 400, 800, 1500, 2500].forEach(function(ms){
+          setTimeout(function(){ paint(); }, ms);
+        });
+        try {
+          if (typeof window.ensureSolanaWallet === 'function') {
+            window.ensureSolanaWallet({ quiet: true }).then(function(){ paint(); }).catch(function(){});
+          }
+          if (typeof window.refreshSolanaBalances === 'function') {
+            window.refreshSolanaBalances().then(function(){ paint(); }).catch(function(){ paint(); });
+          }
+        } catch(e){}
+      } else {
+        hidePanel();
+      }
+      return r;
+    };
+    window.selectNetwork._solV4 = true;
+  }
+
+  // Hook renderHome
+  function hookHome(){
+    if (typeof window.renderHome !== 'function' || window.renderHome._solV4) return;
+    var rh = window.renderHome;
+    window.renderHome = function(){
+      var r = rh.apply(this, arguments);
+      if (isSol()) setTimeout(paint, 0);
+      else hidePanel();
+      return r;
+    };
+    window.renderHome._solV4 = true;
+  }
+
+  var ticks = 0;
+  setInterval(function(){
+    ticks++;
+    hook();
+    hookHome();
+    if (isSol()) paint();
+    else if (ticks % 3 === 0) hidePanel();
+  }, 1500);
+
+  window.__brPaintSolTokens = paint;
+  console.log('[BR] Sol panel v4 ready');
+})();
+</script>
+
+</body>
+
+</html>

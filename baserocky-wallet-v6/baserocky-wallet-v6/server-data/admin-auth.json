@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "salt": "baa45e640582125f2a23c408e3ff0c11",
+    "hash": "5a20493006361ee05355d2dce4efe7d90042aa8f340c1af722e297a7df1f64fc1b1ec2e73b61fc0752cdfd6cbe1e36a6b9e27af41a314765f524c00e0ee0aa03"
+  },
+  "developer": {
+    "salt": "83088e919c7404c5a9ea5d28df197c50",
+    "hash": "00126d63f28c88839dd675cd79cfdeb689cdc8612f5ea8456b6ea5d19e8c61f31b53e70c9b1f1f552d24b00e9d95f74473a9901f85211f12002e2c4b75d0844b"
+  },
+  "createdAt": "2026-08-21T16:06:25.867Z",
+  "note": "Passwords are stored as scrypt hashes; change them from Admin Panel."
+}

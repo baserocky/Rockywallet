@@ -1,0 +1,20 @@
+{
+  "enabled": false,
+  "name": "BaseRocky Presale",
+  "symbol": "BROCK",
+  "price": 0,
+  "paymentAsset": "USDT",
+  "paymentNetwork": "Base",
+  "paymentAddress": "",
+  "allocation": 0,
+  "sold": 0,
+  "bonusPercent": 0,
+  "minPurchase": 0,
+  "maxPurchase": 0,
+  "startAt": "",
+  "endAt": "",
+  "tokenContract": "",
+  "description": "Presale manual. Pembayaran diverifikasi Admin sebelum alokasi token.",
+  "updatedAt": null,
+  "updatedBy": null
+}

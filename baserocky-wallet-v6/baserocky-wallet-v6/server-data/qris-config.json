@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "merchantName": "QRIS Merchant",
+  "payload": "",
+  "imageDataUrl": "",
+  "minIdr": 1000,
+  "instructions": "Bayar sesuai nominal yang tertera menggunakan aplikasi bank/e-wallet yang mendukung QRIS.",
+  "updatedAt": null,
+  "updatedBy": null
+}
