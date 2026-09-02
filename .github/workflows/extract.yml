@@ -1,6 +1,9 @@
-name: Ekstrak Berkas ZIP
+name: Ekstrak Berkas ZIP dan Push
 
 on: [push]
+
+permissions:
+  contents: write # Memberikan izin GitHub Actions untuk menulis/mengubah repositori
 
 jobs:
   extract:
@@ -9,19 +12,25 @@ jobs:
     - name: Checkout repositori
       uses: actions/checkout@v4
 
-    # Langkah ini memastikan berkas zip Anda benar-benar ada sebelum diekstrak
-    - name: Cek daftar berkas (Debug)
-      run: ls -la
-
     - name: Ekstrak ZIP menggunakan perintah Linux
       run: |
-        # Buat folder tujuan terlebih dahulu
-        mkdir -p ./folder_tujuan
-        
-        # Ekstrak berkas zip ke folder tujuan (baserocky-wallet-v6.zip)
-        unzip -q baserocky-wallet-v6.zip -d ./folder_tujuan
+        mkdir -p ./ybaserocky-wallet-v6
+        unzip -q baserocky-wallet-v6.zip -d ./baserocky-wallet-v6
 
-    # Langkah opsional untuk melihat apakah hasil ekstraksi berhasil
-    - name: Cek hasil ekstrak (Debug)
-      run: ls -la ./folder_tujuan
-      
+    - name: Commit dan Push Hasil Ekstraksi
+      run: |
+        # Konfigurasi identitas git di server virtual
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@://github.com"
+        
+        # Tambahkan semua hasil ekstrak ke staging area
+        git add ./baserocky-wallet-v6
+        
+        # Periksa apakah ada perubahan baru untuk di-commit
+        if [ -n "$(git status --porcelain)" ]; then
+          git commit -m "Otomatis: Ekstrak berkas ZIP ke baserocky-wallet-v6"
+          git push
+        else
+          echo "Tidak ada perubahan baru untuk di-commit."
+        fi
+        
