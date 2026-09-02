@@ -9,10 +9,19 @@ jobs:
     - name: Checkout repositori
       uses: actions/checkout@v4
 
-    - name: Ekstrak ZIP
-      uses: ammarahm-ed/extract-action@v1.1
-      with:
-        # Ganti dengan nama berkas zip Anda
-        file: "nama_file_kamu.zip" 
-        # Ganti dengan folder tujuan ekstrak
-        out: "./folder_tujuan"    
+    # Langkah ini memastikan berkas zip Anda benar-benar ada sebelum diekstrak
+    - name: Cek daftar berkas (Debug)
+      run: ls -la
+
+    - name: Ekstrak ZIP menggunakan perintah Linux
+      run: |
+        # Buat folder tujuan terlebih dahulu
+        mkdir -p ./folder_tujuan
+        
+        # Ekstrak berkas zip ke folder tujuan (baserocky-wallet-v6.zip)
+        unzip -q baserocky-wallet-v6.zip -d ./folder_tujuan
+
+    # Langkah opsional untuk melihat apakah hasil ekstraksi berhasil
+    - name: Cek hasil ekstrak (Debug)
+      run: ls -la ./folder_tujuan
+      
